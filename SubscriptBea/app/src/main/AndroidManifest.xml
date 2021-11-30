@@ -10,7 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SubscriptBea">
         <activity
-            android:name=".Activity.MainActivity"
+            android:name=".activity.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.SignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
