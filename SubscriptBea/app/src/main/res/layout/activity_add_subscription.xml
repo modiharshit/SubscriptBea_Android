@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/theme"
-    tools:context=".activity.ProfileActivity">
+    tools:context=".activity.AddSubscriptionActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,19 +19,13 @@
             android:layout_marginRight="20dp"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/imageView6"
-                android:layout_width="match_parent"
-                android:layout_height="240dp"
-                app:srcCompat="@drawable/splash" />
-
             <EditText
                 android:id="@+id/username2"
                 android:layout_width="371dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="20dp"
                 android:background="@color/white"
-                android:hint="@string/prompt_first_name"
+                android:hint="@string/prompt_title"
                 android:inputType="textEmailAddress"
                 android:minHeight="48dp"
                 android:paddingLeft="16dp"
@@ -50,7 +44,26 @@
                 android:layout_height="48dp"
                 android:layout_marginTop="20dp"
                 android:background="@color/white"
-                android:hint="@string/prompt_last_name"
+                android:hint="@string/prompt_subscription_type"
+                android:inputType="textEmailAddress"
+                android:minHeight="48dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                app:layout_constraintBottom_toTopOf="@+id/username"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/username2" />
+
+            <EditText
+                android:id="@+id/username4"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/white"
+                android:hint="@string/prompt_start_date"
                 android:inputType="textEmailAddress"
                 android:minHeight="48dp"
                 android:paddingLeft="16dp"
@@ -69,7 +82,7 @@
                 android:layout_height="48dp"
                 android:layout_marginTop="20dp"
                 android:background="@color/white"
-                android:hint="@string/prompt_email"
+                android:hint="@string/prompt_amount"
                 android:inputType="textEmailAddress"
                 android:minHeight="48dp"
                 android:paddingLeft="16dp"
@@ -118,7 +131,7 @@
                     android:layout_marginBottom="20dp"
                     android:layout_weight="1"
                     android:singleLine="true"
-                    android:text="@string/logout"
+                    android:text="@string/delete"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -133,5 +146,4 @@
 
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
