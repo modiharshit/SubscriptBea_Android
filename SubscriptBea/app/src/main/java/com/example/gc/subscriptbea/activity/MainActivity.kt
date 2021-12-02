@@ -15,7 +15,7 @@ class MainActivity : HMBaseActivity() {
     }
 
     fun btnLoginAction(view: View) {
-        val intent = Intent(this, SignupActivity::class.java)
+        val intent = Intent(this, ProfileActivity::class.java)
         startActivity(intent)
     }
 
