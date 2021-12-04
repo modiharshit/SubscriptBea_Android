@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.example.gc.subscriptbea.R
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -57,5 +58,10 @@ class HomeActivity : AppCompatActivity() {
             }
         }
         return false
+    }
+
+    fun btnAddSubscriptionAction(view: View) {
+        val intent = Intent(this, AddSubscriptionActivity::class.java)
+        startActivity(intent)
     }
 }
