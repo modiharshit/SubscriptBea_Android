@@ -1,7 +1,6 @@
 package com.example.gc.subscriptbea.activity
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -13,6 +12,8 @@ import com.google.gson.Gson
 class ProfileActivity : HMBaseActivity() {
 
     lateinit var user: User
+    private val FIRST_NAME = "firstName"
+    private val LAST_NAME = "lastName"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,7 +71,11 @@ class ProfileActivity : HMBaseActivity() {
     private fun updateProfile() {
         user.firstName = this.getTextFromViewById(R.id.firstName)
         user.lastName = this.getTextFromViewById(R.id.lastName)
-        firebaseDatabase.child("users").child(user.id).setValue(user)
+        val userValues = buildMap(2){
+            put(FIRST_NAME, user.firstName)
+            put(LAST_NAME, user.lastName)
+        }
+        firebaseDatabase.child(NODE_USERS).child(user.id).updateChildren(userValues)
             .addOnSuccessListener {
                 Log.i(TAG, "User Updated")
                 this.goBackToHomeActivity()
