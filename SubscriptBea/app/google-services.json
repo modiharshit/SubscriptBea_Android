@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "13383343178",
+    "firebase_url": "https://subscriptbea-default-rtdb.firebaseio.com",
+    "project_id": "subscriptbea",
+    "storage_bucket": "subscriptbea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:13383343178:android:b48e5233f3acdcccd71ab3",
+        "android_client_info": {
+          "package_name": "com.example.gc.subscriptbea"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "13383343178-cv7c2p792cg4oiqm1vd6qi4sdb674khc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4kxrg0ckNEnabCoiIyAlMO0Ij2kHeYYU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "13383343178-cv7c2p792cg4oiqm1vd6qi4sdb674khc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "13383343178-7r4scqb87k3cvpiuadjrqd8loaeodff9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.georgian.SubscriptBea"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

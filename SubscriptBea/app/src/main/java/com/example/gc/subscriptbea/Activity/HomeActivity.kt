@@ -1,7 +1,6 @@
 package com.example.gc.subscriptbea.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -9,10 +8,11 @@ import android.view.View
 import com.example.gc.subscriptbea.R
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.gc.subscriptbea.helpers.HMBaseActivity
 import com.example.gc.subscriptbea.model.ItemsViewModel
 import kotlinx.android.synthetic.main.activity_home.*
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : HMBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -61,7 +61,6 @@ class HomeActivity : AppCompatActivity() {
     }
 
     fun btnAddSubscriptionAction(view: View) {
-        val intent = Intent(this, AddSubscriptionActivity::class.java)
-        startActivity(intent)
+        this.goToNextActivity(AddSubscriptionActivity::class.java)
     }
 }
