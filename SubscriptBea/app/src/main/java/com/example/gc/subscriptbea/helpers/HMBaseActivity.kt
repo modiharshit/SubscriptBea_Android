@@ -16,6 +16,8 @@ open class HMBaseActivity : AppCompatActivity() {
 
     val NODE_USERS = "users"
     val NODE_SUBSCRIPTIONS = "subscriptions"
+    protected val SUBSCRIPTION_ID = "id"
+    protected val SUBSCRIPTION_TITLE = "title"
 
 
     protected val TAG: String = this.javaClass.simpleName

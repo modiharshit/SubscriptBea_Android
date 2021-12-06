@@ -28,22 +28,11 @@ class HomeActivity : HMBaseActivity() {
 
         // this creates a vertical layout Manager
         recyclerview.layoutManager = LinearLayoutManager(this)
+    }
 
-        // ArrayList of class ItemsViewModel
-        val data = ArrayList<ItemsViewModel>()
-
-        // This loop will create 20 Views containing
-        // the image with the count of view
-        for (i in 1..20) {
-            data.add(ItemsViewModel("i.toString()", "Item " + i))
-        }
-
-        // This will pass the ArrayList to our Adapter
-        val adapter = HomeAdapter(data)
-
-        // Setting the Adapter with the recyclerview
-        recyclerview.adapter = adapter
-
+    override fun onStart() {
+        super.onStart()
+        this.getSubscriptions()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -64,20 +53,33 @@ class HomeActivity : HMBaseActivity() {
     }
 
     //Firebase
-//    private fun getSubscriptions() {
-//        firebaseDatabase.child(NODE_USERS).child(firebaseAuth.uid.toString()).child(NODE_SUBSCRIPTIONS).get()
-//            .addOnSuccessListener {
-//                Log.i(TAG, "Got value ${it.value}")
-//                user = Gson().fromJson(it.value.toString(), User::class.java)
-//                if(user != null){
-//                    this.setTextFromViewById(R.id.firstName, user.firstName)
-//                    this.setTextFromViewById(R.id.lastName, user.lastName)
-//                    this.setTextFromViewById(R.id.email, user.email)
-//                }
-//            }.addOnFailureListener{
-//                Log.e(TAG, "Error getting User data", it)
-//            }
-//    }
+    fun getSubscriptions(){
+        firebaseDatabase.child(NODE_USERS).child(firebaseAuth.uid.toString()).child(NODE_SUBSCRIPTIONS).get()
+            .addOnSuccessListener {
+                Log.d(TAG, "Got Artworks ${(it.getValue())}")
+
+                var artworkMap = it.getValue() as Map<String, Any>
+                var subscriptions: ArrayList<ItemsViewModel> = ArrayList()
+                var subscriptionsData: ItemsViewModel
+
+                for ((k, v) in artworkMap) {
+                    var subscriptionsValuesMap = v as Map<String, String>
+                    subscriptionsData = ItemsViewModel(
+                        subscriptionsValuesMap.get(SUBSCRIPTION_ID).toString(),
+                        subscriptionsValuesMap.get(SUBSCRIPTION_TITLE).toString())
+                    subscriptions.add(subscriptionsData)
+                }
+
+                //Passing data to custom adapter
+                val adapter = HomeAdapter(subscriptions)
+                // Setting the Adapter with the recyclerview
+                recyclerview.adapter = adapter
+
+            }.addOnFailureListener{
+                Log.e(TAG, "Error getting Artworks", it)
+            }
+    }
+
 
     fun btnAddSubscriptionAction(view: View) {
         this.goToNextActivity(AddSubscriptionActivity::class.java)
