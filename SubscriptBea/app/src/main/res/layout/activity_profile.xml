@@ -26,7 +26,7 @@
                 app:srcCompat="@drawable/splash" />
 
             <EditText
-                android:id="@+id/username2"
+                android:id="@+id/firstName"
                 android:layout_width="371dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="20dp"
@@ -45,7 +45,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/username3"
+                android:id="@+id/lastName"
                 android:layout_width="371dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="20dp"
@@ -89,15 +89,16 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/button"
+                    android:id="@+id/update"
                     android:layout_width="0dp"
                     android:layout_height="56dp"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
                     android:layout_weight="1"
+                    android:onClick="btnUpdateAction"
                     android:singleLine="true"
-                    android:text="@string/save"
+                    android:text="@string/update"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -110,13 +111,14 @@
                     app:layout_constraintTop_toBottomOf="@+id/password2" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/button2"
+                    android:id="@+id/logout"
                     android:layout_width="0dp"
                     android:layout_height="56dp"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
                     android:layout_weight="1"
+                    android:onClick="btnLogoutAction"
                     android:singleLine="true"
                     android:text="@string/logout"
                     android:textColor="@color/white"

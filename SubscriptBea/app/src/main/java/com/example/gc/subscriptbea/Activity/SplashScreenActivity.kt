@@ -1,7 +1,5 @@
 package com.example.gc.subscriptbea.activity
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -25,7 +23,7 @@ class SplashScreenActivity : HMBaseActivity() {
                 this.goToNextActivity(HomeActivity::class.java)
             }
             else{
-                this.goToNextActivity(MainActivity::class.java)
+                this.goToNextActivity(LoginActivity::class.java)
             }
         }, Constants.SPLASH_TIME_OUT)
     }
