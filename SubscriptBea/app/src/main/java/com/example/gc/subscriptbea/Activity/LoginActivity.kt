@@ -18,7 +18,7 @@ class LoginActivity : HMBaseActivity() {
     }
 
     fun btnSignupAction(view: View){
-        this.goToNextActivity(ProfileActivity::class.java)
+        this.goToNextActivity(SignupActivity::class.java)
     }
 
     fun btnLoginAction(view: View){

@@ -1,6 +1,14 @@
 package com.example.gc.subscriptbea.model
 
+import java.util.*
 
-data class ItemsViewModel(val image: Int, val text: String) {
+open class ItemsViewModel {
 
+    var id = ""
+    var title = ""
+
+    constructor(id: String, title: String) {
+        this.id = id
+        this.title = title
+    }
 }

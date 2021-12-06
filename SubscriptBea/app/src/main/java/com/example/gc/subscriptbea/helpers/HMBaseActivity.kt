@@ -13,6 +13,10 @@ import com.google.firebase.ktx.Firebase
 
 open class HMBaseActivity : AppCompatActivity() {
 
+    val NODE_USERS = "users"
+    val NODE_SUBSCRIPTIONS = "subscriptions"
+
+
     protected val TAG: String = this.javaClass.simpleName
     protected lateinit var firebaseAuth: FirebaseAuth
     protected lateinit var firebaseDatabase: DatabaseReference
@@ -53,4 +57,7 @@ open class HMBaseActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun getUniqueId(): String {
+        return System.currentTimeMillis().toString()
+    }
 }

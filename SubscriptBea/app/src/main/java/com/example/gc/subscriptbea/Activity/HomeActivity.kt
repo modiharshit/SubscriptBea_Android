@@ -2,6 +2,7 @@ package com.example.gc.subscriptbea.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -10,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gc.subscriptbea.helpers.HMBaseActivity
 import com.example.gc.subscriptbea.model.ItemsViewModel
+import com.example.gc.subscriptbea.model.User
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : HMBaseActivity() {
@@ -32,7 +35,7 @@ class HomeActivity : HMBaseActivity() {
         // This loop will create 20 Views containing
         // the image with the count of view
         for (i in 1..20) {
-            data.add(ItemsViewModel(R.drawable.splash, "Item " + i))
+            data.add(ItemsViewModel("i.toString()", "Item " + i))
         }
 
         // This will pass the ArrayList to our Adapter
@@ -58,6 +61,22 @@ class HomeActivity : HMBaseActivity() {
             }
         }
         return false
+    }
+
+    //Firebase
+    private fun getSubscriptions() {
+        firebaseDatabase.child(NODE_USERS).child(firebaseAuth.uid.toString()).child(NODE_SUBSCRIPTIONS).get()
+            .addOnSuccessListener {
+                Log.i(TAG, "Got value ${it.value}")
+                user = Gson().fromJson(it.value.toString(), User::class.java)
+                if(user != null){
+                    this.setTextFromViewById(R.id.firstName, user.firstName)
+                    this.setTextFromViewById(R.id.lastName, user.lastName)
+                    this.setTextFromViewById(R.id.email, user.email)
+                }
+            }.addOnFailureListener{
+                Log.e(TAG, "Error getting User data", it)
+            }
     }
 
     fun btnAddSubscriptionAction(view: View) {

@@ -2,6 +2,7 @@ package com.example.gc.subscriptbea.activity
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import com.example.gc.subscriptbea.R
 import com.example.gc.subscriptbea.helpers.HMBaseActivity
 import com.example.gc.subscriptbea.model.User
@@ -16,6 +17,10 @@ class SignupActivity : HMBaseActivity() {
 
     private fun updateUI(user: FirebaseUser?) {
         this.goToNextActivity(HomeActivity::class.java)
+    }
+
+    fun btnSignupAction(view: View){
+        this.createAccount()
     }
 
     //Firebase

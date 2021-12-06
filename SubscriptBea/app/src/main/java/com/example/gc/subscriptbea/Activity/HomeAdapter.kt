@@ -33,10 +33,10 @@ class HomeAdapter(private val mList: List<ItemsViewModel>) : RecyclerView.Adapte
         val ItemsViewModel = mList[position]
 
         // sets the image to the imageview from our itemHolder class
-        holder.imageView.setImageResource(ItemsViewModel.image)
+        holder.imageView.setImageResource(R.drawable.splash)
 
         // sets the text to the textview from our itemHolder class
-        holder.textView.text = ItemsViewModel.text
+        holder.textView.text = ItemsViewModel.title
 
         holder.itemView.setOnClickListener { view ->
             onItemClick(view, position)

@@ -20,7 +20,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/username2"
+                android:id="@+id/subscriptionTitle"
                 android:layout_width="371dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="20dp"
@@ -39,7 +39,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/username3"
+                android:id="@+id/subscriptionType"
                 android:layout_width="371dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="20dp"
@@ -58,7 +58,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/username2" />
 
             <EditText
-                android:id="@+id/username4"
+                android:id="@+id/subscriptionStartDate"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="20dp"
@@ -77,7 +77,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/username2" />
 
             <EditText
-                android:id="@+id/email"
+                android:id="@+id/subscriptionAmount"
                 android:layout_width="371dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="20dp"
@@ -102,13 +102,14 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/button"
+                    android:id="@+id/save"
                     android:layout_width="0dp"
                     android:layout_height="56dp"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
                     android:layout_weight="1"
+                    android:onClick="btnAddSubscriptionDataAction"
                     android:singleLine="true"
                     android:text="@string/save"
                     android:textColor="@color/black"
@@ -123,13 +124,14 @@
                     app:layout_constraintTop_toBottomOf="@+id/password2" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/button2"
+                    android:id="@+id/delete"
                     android:layout_width="0dp"
                     android:layout_height="56dp"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
                     android:layout_weight="1"
+                    android:onClick="btnDeleteAction"
                     android:singleLine="true"
                     android:text="@string/delete"
                     android:textColor="@color/white"
