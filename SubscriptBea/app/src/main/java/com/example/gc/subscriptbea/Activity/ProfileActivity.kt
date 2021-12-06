@@ -1,5 +1,7 @@
 package com.example.gc.subscriptbea.activity
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -23,7 +25,30 @@ class ProfileActivity : HMBaseActivity() {
     }
 
     fun btnLogoutAction(view: View) {
-        this.signOut()
+        val builder = AlertDialog.Builder(this)
+        //set title for alert dialog
+        builder.setTitle(R.string.logout)
+        //set message for alert dialog
+        builder.setMessage(R.string.Are_you_sure_logout)
+        builder.setIcon(android.R.drawable.ic_dialog_alert)
+
+        //performing positive action
+        builder.setPositiveButton("Yes"){dialogInterface, which ->
+            this.signOut()
+        }
+        //performing cancel action
+        builder.setNeutralButton("Cancel"){dialogInterface , which ->
+
+        }
+        //performing negative action
+        builder.setNegativeButton("No"){dialogInterface, which ->
+
+        }
+        // Create the AlertDialog
+        val alertDialog: AlertDialog = builder.create()
+        // Set other dialog properties
+        alertDialog.setCancelable(false)
+        alertDialog.show()
     }
 
     //Firebase
@@ -48,10 +73,10 @@ class ProfileActivity : HMBaseActivity() {
         firebaseDatabase.child("users").child(user.id).setValue(user)
             .addOnSuccessListener {
                 Log.i(TAG, "User Updated")
+                this.goBackToHomeActivity()
             }
             .addOnFailureListener{
                 Log.e(TAG, "Error updating User data", it)
             }
     }
-
 }

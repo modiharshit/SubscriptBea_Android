@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.gc.subscriptbea.activity.HomeActivity
 import com.example.gc.subscriptbea.activity.LoginActivity
 import com.example.gc.subscriptbea.util.Extensions.toast
 import com.google.firebase.auth.FirebaseAuth
@@ -47,6 +48,12 @@ open class HMBaseActivity : AppCompatActivity() {
         val intent = Intent(this, activity)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
+    }
+
+    fun goBackToHomeActivity(){
+        val intent = Intent(this, HomeActivity::class.java)
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent);
     }
 
     fun signOut() {

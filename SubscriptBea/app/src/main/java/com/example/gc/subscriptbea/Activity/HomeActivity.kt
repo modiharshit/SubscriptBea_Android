@@ -64,20 +64,20 @@ class HomeActivity : HMBaseActivity() {
     }
 
     //Firebase
-    private fun getSubscriptions() {
-        firebaseDatabase.child(NODE_USERS).child(firebaseAuth.uid.toString()).child(NODE_SUBSCRIPTIONS).get()
-            .addOnSuccessListener {
-                Log.i(TAG, "Got value ${it.value}")
-                user = Gson().fromJson(it.value.toString(), User::class.java)
-                if(user != null){
-                    this.setTextFromViewById(R.id.firstName, user.firstName)
-                    this.setTextFromViewById(R.id.lastName, user.lastName)
-                    this.setTextFromViewById(R.id.email, user.email)
-                }
-            }.addOnFailureListener{
-                Log.e(TAG, "Error getting User data", it)
-            }
-    }
+//    private fun getSubscriptions() {
+//        firebaseDatabase.child(NODE_USERS).child(firebaseAuth.uid.toString()).child(NODE_SUBSCRIPTIONS).get()
+//            .addOnSuccessListener {
+//                Log.i(TAG, "Got value ${it.value}")
+//                user = Gson().fromJson(it.value.toString(), User::class.java)
+//                if(user != null){
+//                    this.setTextFromViewById(R.id.firstName, user.firstName)
+//                    this.setTextFromViewById(R.id.lastName, user.lastName)
+//                    this.setTextFromViewById(R.id.email, user.email)
+//                }
+//            }.addOnFailureListener{
+//                Log.e(TAG, "Error getting User data", it)
+//            }
+//    }
 
     fun btnAddSubscriptionAction(view: View) {
         this.goToNextActivity(AddSubscriptionActivity::class.java)
