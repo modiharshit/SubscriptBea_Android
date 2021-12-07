@@ -2,7 +2,7 @@ package com.example.gc.subscriptbea.model
 
 import java.util.*
 
-open class ItemsViewModel {
+open class Subscription {
 
     var id = ""
     var title = ""

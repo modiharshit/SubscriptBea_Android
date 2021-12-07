@@ -8,13 +8,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gc.subscriptbea.R
-import com.example.gc.subscriptbea.model.ItemsViewModel
+import com.example.gc.subscriptbea.model.Subscription
 
 import android.content.Intent
 import com.example.gc.subscriptbea.util.Constants
 
 
-class HomeAdapter(private val mList: List<ItemsViewModel>) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+class HomeAdapter(private val mList: List<Subscription>) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
     // create new views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -43,7 +43,7 @@ class HomeAdapter(private val mList: List<ItemsViewModel>) : RecyclerView.Adapte
 
     }
 
-    fun onItemClick(view: View, subscription: ItemsViewModel){
+    fun onItemClick(view: View, subscription: Subscription){
         val context: Context = view.context
         var intent = Intent(context, AddSubscriptionActivity::class.java)
         intent.putExtra(Constants.SUBSCRIPTION_DETAIL_ID, subscription.id)

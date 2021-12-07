@@ -10,7 +10,7 @@ import com.example.gc.subscriptbea.R
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gc.subscriptbea.helpers.HMBaseActivity
-import com.example.gc.subscriptbea.model.ItemsViewModel
+import com.example.gc.subscriptbea.model.Subscription
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : HMBaseActivity() {
@@ -54,15 +54,15 @@ class HomeActivity : HMBaseActivity() {
     fun getSubscriptions() {
         firebaseDatabase.child(NODE_USERS).child(firebaseAuth.uid.toString()).child(NODE_SUBSCRIPTIONS).get()
             .addOnSuccessListener {
-                var subscriptions: ArrayList<ItemsViewModel> = ArrayList()
+                var subscriptions: ArrayList<Subscription> = ArrayList()
                 if(it.value != null){
                     Log.d(TAG, "Got Subscriptions ${(it.value)}")
                     var subscriptionMap = it.getValue() as Map<String, Any>
-                    var subscription: ItemsViewModel
+                    var subscription: Subscription
 
                     for ((k, v) in subscriptionMap) {
                         var subscriptionValuesMap = v as Map<String, String>
-                        subscription = ItemsViewModel(
+                        subscription = Subscription(
                             subscriptionValuesMap.get(SUBSCRIPTION_ID).toString(),
                             subscriptionValuesMap.get(SUBSCRIPTION_TITLE).toString())
                         subscriptions.add(subscription)
