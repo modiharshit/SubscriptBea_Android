@@ -11,8 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gc.subscriptbea.helpers.HMBaseActivity
 import com.example.gc.subscriptbea.model.ItemsViewModel
-import com.example.gc.subscriptbea.model.User
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : HMBaseActivity() {
@@ -53,30 +51,30 @@ class HomeActivity : HMBaseActivity() {
     }
 
     //Firebase
-    fun getSubscriptions(){
+    fun getSubscriptions() {
         firebaseDatabase.child(NODE_USERS).child(firebaseAuth.uid.toString()).child(NODE_SUBSCRIPTIONS).get()
             .addOnSuccessListener {
-                Log.d(TAG, "Got Artworks ${(it.getValue())}")
-
-                var artworkMap = it.getValue() as Map<String, Any>
                 var subscriptions: ArrayList<ItemsViewModel> = ArrayList()
-                var subscriptionsData: ItemsViewModel
+                if(it.value != null){
+                    Log.d(TAG, "Got Subscriptions ${(it.value)}")
+                    var subscriptionMap = it.getValue() as Map<String, Any>
+                    var subscription: ItemsViewModel
 
-                for ((k, v) in artworkMap) {
-                    var subscriptionsValuesMap = v as Map<String, String>
-                    subscriptionsData = ItemsViewModel(
-                        subscriptionsValuesMap.get(SUBSCRIPTION_ID).toString(),
-                        subscriptionsValuesMap.get(SUBSCRIPTION_TITLE).toString())
-                    subscriptions.add(subscriptionsData)
+                    for ((k, v) in subscriptionMap) {
+                        var subscriptionValuesMap = v as Map<String, String>
+                        subscription = ItemsViewModel(
+                            subscriptionValuesMap.get(SUBSCRIPTION_ID).toString(),
+                            subscriptionValuesMap.get(SUBSCRIPTION_TITLE).toString())
+                        subscriptions.add(subscription)
+                    }
                 }
-
                 //Passing data to custom adapter
                 val adapter = HomeAdapter(subscriptions)
                 // Setting the Adapter with the recyclerview
                 recyclerview.adapter = adapter
 
             }.addOnFailureListener{
-                Log.e(TAG, "Error getting Artworks", it)
+                Log.e(TAG, "Error getting Subscriptions", it)
             }
     }
 

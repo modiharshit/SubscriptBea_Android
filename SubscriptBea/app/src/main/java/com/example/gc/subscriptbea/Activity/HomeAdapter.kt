@@ -9,10 +9,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gc.subscriptbea.R
 import com.example.gc.subscriptbea.model.ItemsViewModel
-import androidx.core.content.ContextCompat.startActivity
 
 import android.content.Intent
-import androidx.core.content.ContextCompat
+import com.example.gc.subscriptbea.util.Constants
 
 
 class HomeAdapter(private val mList: List<ItemsViewModel>) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
@@ -30,25 +29,28 @@ class HomeAdapter(private val mList: List<ItemsViewModel>) : RecyclerView.Adapte
     // binds the list items to a view
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val ItemsViewModel = mList[position]
+        val subscription = mList[position]
 
         // sets the image to the imageview from our itemHolder class
         holder.imageView.setImageResource(R.drawable.splash)
 
         // sets the text to the textview from our itemHolder class
-        holder.textView.text = ItemsViewModel.title
+        holder.textView.text = subscription.title
 
         holder.itemView.setOnClickListener { view ->
-            onItemClick(view, position)
+            onItemClick(view, subscription)
         }
+
     }
 
-    fun onItemClick(view: View, position: Int) {
+    fun onItemClick(view: View, subscription: ItemsViewModel){
         val context: Context = view.context
-        var intent: Intent? = Intent()
-        intent = Intent(context, AddSubscriptionActivity::class.java)
+        var intent = Intent(context, AddSubscriptionActivity::class.java)
+        intent.putExtra(Constants.SUBSCRIPTION_DETAIL_ID, subscription.id)
+        intent.putExtra(Constants.IS_NEW, false)
         context.startActivity(intent)
     }
+
     // return the number of the items in the list
     override fun getItemCount(): Int {
         return mList.size

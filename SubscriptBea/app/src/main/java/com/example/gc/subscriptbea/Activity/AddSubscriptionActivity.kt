@@ -7,58 +7,104 @@ import android.view.View
 import com.example.gc.subscriptbea.R
 import com.example.gc.subscriptbea.helpers.HMBaseActivity
 import com.example.gc.subscriptbea.model.ItemsViewModel
+import com.example.gc.subscriptbea.util.Constants
 import com.example.gc.subscriptbea.util.Extensions.toast
 
 class AddSubscriptionActivity : HMBaseActivity() {
 
     lateinit var subscriptionData: ItemsViewModel
+    var subscripionId = ""
+    var isNew = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_subscription)
     }
 
-    private fun addSubscription() {
+    override fun onStart() {
+        super.onStart()
+        subscripionId = intent.getStringExtra(Constants.SUBSCRIPTION_DETAIL_ID).toString()
+        isNew = intent.getBooleanExtra(Constants.IS_NEW, true)
+        if(!isNew){
+            this.setTextFromViewById(R.id.save, "Update")
+            this.getSubscriptions()
+        }
+    }
 
-        val id = this.getUniqueId()
+    fun updateUi(){
+        this.goBackToHomeActivity()
+    }
+
+    //Firebase
+    fun addSubscription(){
         val title = this.getTextFromViewById(R.id.subscriptionTitle)
-
-        subscriptionData = ItemsViewModel("id", "Title")
+        subscriptionData = ItemsViewModel(this.getUniqueId(), title)
         val subscriptions = buildMap(1){
-            put(id, subscriptionData)
+            put(subscriptionData.id, subscriptionData)
         }
         firebaseDatabase.child(NODE_USERS).child(firebaseAuth.uid.toString()).child(NODE_SUBSCRIPTIONS).updateChildren(subscriptions)
             .addOnSuccessListener {
-                Log.i(TAG, "Subscription Added or Updated successfully")
-                toast("Subscription added successfully.")
-                this.goBackToHomeActivity()
+                Log.i(TAG, "Subscription Added successfully")
+                toast("Subscription Added Successfully")
+                this.updateUi()
             }
             .addOnFailureListener{
-                Log.e(TAG, "Error Adding or Updating Subscription data", it)
-                toast("Error Adding or Updating Subscription data")
+                Log.e(TAG, "Error Adding Subscription data", it)
             }
-
     }
 
-    private fun deleteSubscription() {
-
-        //val id = subscriptionData.id
-        val id = "1638815968620"
-        firebaseDatabase.child(NODE_USERS).child(firebaseAuth.uid.toString()).child(NODE_SUBSCRIPTIONS).child(id).removeValue()
+    fun updateSubscription(){
+        val title = this.getTextFromViewById(R.id.title)
+        subscriptionData = ItemsViewModel(subscriptionData.id, title)
+        firebaseDatabase.child(NODE_USERS).child(firebaseAuth.uid.toString()).child(NODE_SUBSCRIPTIONS).child(subscriptionData.id).setValue(subscriptionData)
             .addOnSuccessListener {
                 Log.i(TAG, "Subscription Added or Updated successfully")
-                toast("Subscription deleted successfully.")
-
-                this.goBackToHomeActivity()
+                toast("Subscription Updated Successfully")
+                this.updateUi()
             }
             .addOnFailureListener{
-                Log.e(TAG, "Error Adding or Updating Subscription data", it)
-                toast("Error deleteing Subscription data")
+                Log.e(TAG, "Error Updating Subscription data", it)
+            }
+    }
+
+    fun getSubscriptions(){
+        firebaseDatabase.child(NODE_USERS).child(firebaseAuth.uid.toString()).child(NODE_SUBSCRIPTIONS).child(subscripionId).get()
+            .addOnSuccessListener {
+                if(it.value != null){
+                    Log.i(TAG, "Got value ${it.value}")
+                    var subscriptionMap = it.getValue() as Map<String, Any>
+                    subscriptionData = ItemsViewModel(
+                        subscriptionMap.get(SUBSCRIPTION_ID).toString(),
+                        subscriptionMap.get(SUBSCRIPTION_TITLE).toString())
+                    if(subscriptionData != null){
+                        this.setTextFromViewById(R.id.subscriptionTitle, subscriptionData.title)
+                    }
+                }
+            }
+            .addOnFailureListener{
+                Log.e(TAG, "Error getting subscription data", it)
+            }
+    }
+
+    fun deleteSubscription(){
+        firebaseDatabase.child(NODE_USERS).child(firebaseAuth.uid.toString()).child(NODE_SUBSCRIPTIONS).child(subscriptionData.id).removeValue()
+            .addOnSuccessListener {
+                Log.i(TAG, "Subscription deleted successfully")
+                toast("Subscription deleted Successfully")
+                this.updateUi()
+            }
+            .addOnFailureListener{
+                Log.e(TAG, "Error deleting Subscription", it)
             }
     }
 
     fun btnAddSubscriptionDataAction(view: View){
         this.addSubscription()
+        if(isNew){
+            this.addSubscription()
+        }else{
+            this.updateSubscription()
+        }
     }
 
     fun btnDeleteAction(view: View){

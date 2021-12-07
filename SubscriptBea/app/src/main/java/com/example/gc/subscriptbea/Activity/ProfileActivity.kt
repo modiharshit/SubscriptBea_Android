@@ -7,13 +7,15 @@ import android.view.View
 import com.example.gc.subscriptbea.R
 import com.example.gc.subscriptbea.helpers.HMBaseActivity
 import com.example.gc.subscriptbea.model.User
-import com.google.gson.Gson
+import com.example.gc.subscriptbea.util.Extensions.toast
 
 class ProfileActivity : HMBaseActivity() {
 
     lateinit var user: User
     private val FIRST_NAME = "firstName"
     private val LAST_NAME = "lastName"
+    private val ID = "id"
+    private val EMAIL = "email"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,34 +56,40 @@ class ProfileActivity : HMBaseActivity() {
 
     //Firebase
     private fun getProfile() {
-        firebaseDatabase.child("users").child(firebaseAuth.uid.toString()).get()
-            .addOnSuccessListener {
-                Log.i(TAG, "Got value ${it.value}")
-                user = Gson().fromJson(it.value.toString(), User::class.java)
-                if(user != null){
-                    this.setTextFromViewById(R.id.firstName, user.firstName)
-                    this.setTextFromViewById(R.id.lastName, user.lastName)
-                    this.setTextFromViewById(R.id.email, user.email)
-                }
-            }.addOnFailureListener{
-                Log.e(TAG, "Error getting User data", it)
+    firebaseDatabase.child(NODE_USERS).child(firebaseAuth.uid.toString()).get()
+        .addOnSuccessListener {
+            Log.i(TAG, "Got value ${it.value}")
+            var userMap = it.getValue() as Map<String, Any>
+            user = User(
+                userMap.get(ID) as String,
+                userMap.get(FIRST_NAME) as String,
+                userMap.get(LAST_NAME) as String,
+                userMap.get(EMAIL) as String
+            )
+            if(user != null){
+                this.setTextFromViewById(R.id.firstName, user.firstName)
+                this.setTextFromViewById(R.id.lastName, user.lastName)
+                this.setTextFromViewById(R.id.email, user.email)
             }
+        }.addOnFailureListener{
+            Log.e(TAG, "Error getting User data", it)
+        }
     }
 
     private fun updateProfile() {
-        user.firstName = this.getTextFromViewById(R.id.firstName)
-        user.lastName = this.getTextFromViewById(R.id.lastName)
-        val userValues = buildMap(2){
-            put(FIRST_NAME, user.firstName)
-            put(LAST_NAME, user.lastName)
+    user.firstName = this.getTextFromViewById(R.id.firstName)
+    user.lastName = this.getTextFromViewById(R.id.lastName)
+    val userValues = buildMap(2){
+        put(FIRST_NAME, user.firstName)
+        put(LAST_NAME, user.lastName)
+    }
+    firebaseDatabase.child(NODE_USERS).child(user.id).updateChildren(userValues)
+        .addOnSuccessListener {
+            Log.i(TAG, "User Updated")
+            toast("User profile updated")
         }
-        firebaseDatabase.child(NODE_USERS).child(user.id).updateChildren(userValues)
-            .addOnSuccessListener {
-                Log.i(TAG, "User Updated")
-                this.goBackToHomeActivity()
-            }
-            .addOnFailureListener{
-                Log.e(TAG, "Error updating User data", it)
-            }
+        .addOnFailureListener{
+            Log.e(TAG, "Error updating User data", it)
+        }
     }
 }

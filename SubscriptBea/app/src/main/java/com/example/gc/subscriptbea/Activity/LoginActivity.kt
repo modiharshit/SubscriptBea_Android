@@ -8,7 +8,6 @@ import com.example.gc.subscriptbea.R
 import com.example.gc.subscriptbea.helpers.HMBaseActivity
 import com.example.gc.subscriptbea.util.Extensions.toast
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.android.synthetic.main.activity_login.view.*
 
 class LoginActivity : HMBaseActivity() {
 
