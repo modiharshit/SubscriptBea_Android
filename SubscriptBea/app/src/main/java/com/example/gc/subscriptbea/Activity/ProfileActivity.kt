@@ -4,10 +4,12 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import com.example.gc.subscriptbea.R
 import com.example.gc.subscriptbea.helpers.HMBaseActivity
 import com.example.gc.subscriptbea.model.User
 import com.example.gc.subscriptbea.util.Extensions.toast
+import com.squareup.picasso.Picasso
 
 class ProfileActivity : HMBaseActivity() {
 
@@ -16,6 +18,7 @@ class ProfileActivity : HMBaseActivity() {
     private val LAST_NAME = "lastName"
     private val ID = "id"
     private val EMAIL = "email"
+    private val PROFILE_PICTURE = "profilePicture"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,12 +67,20 @@ class ProfileActivity : HMBaseActivity() {
                 userMap.get(ID) as String,
                 userMap.get(FIRST_NAME) as String,
                 userMap.get(LAST_NAME) as String,
-                userMap.get(EMAIL) as String
+                userMap.get(EMAIL) as String,
+                userMap.get(PROFILE_PICTURE) as String
             )
             if(user != null){
                 this.setTextFromViewById(R.id.firstName, user.firstName)
                 this.setTextFromViewById(R.id.lastName, user.lastName)
                 this.setTextFromViewById(R.id.email, user.email)
+                val profileImage: ImageView = findViewById(R.id.imgProfilePicture) as ImageView
+                if(user.profilePicture != ""){
+                    Picasso.get().load(user.profilePicture).into(profileImage)
+                }
+                else{
+                    profileImage.setImageResource(R.drawable.splash)
+                }
             }
         }.addOnFailureListener{
             Log.e(TAG, "Error getting User data", it)

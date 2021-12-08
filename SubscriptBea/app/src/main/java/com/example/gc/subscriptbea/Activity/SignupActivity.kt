@@ -29,13 +29,14 @@ class SignupActivity : HMBaseActivity() {
         val lastName: String = this.getTextFromViewById(R.id.lastName)
         val email: String = this.getTextFromViewById(R.id.email)
         val password: String = this.getTextFromViewById(R.id.password)
+        val profilePicture: String = ""
         val confirmPassword: String = this.getTextFromViewById(R.id.confirmPassword)
         firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:success")
-                    var user = User(firebaseAuth.uid.toString() ,firstName, lastName, email)
+                    var user = User(firebaseAuth.uid.toString() ,firstName, lastName, email, profilePicture)
                     firebaseDatabase.child("users").child(user.id).setValue(user)
                     this.updateUI(firebaseAuth.currentUser)
                 } else {

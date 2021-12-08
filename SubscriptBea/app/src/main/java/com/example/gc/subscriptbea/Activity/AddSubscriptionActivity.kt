@@ -1,10 +1,13 @@
 package com.example.gc.subscriptbea.activity
 
 import android.app.AlertDialog
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.DatePicker
+import android.widget.ScrollView
 import com.example.gc.subscriptbea.R
 import com.example.gc.subscriptbea.helpers.HMBaseActivity
 import com.example.gc.subscriptbea.model.Subscription
@@ -17,9 +20,12 @@ class AddSubscriptionActivity : HMBaseActivity() {
     var subscripionId = ""
     var isNew = true
 
+    //val datePicker = findViewById<DatePicker>(R.id.datePicker)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_subscription)
+        //(findViewById(R.id.delete) as DatePicker).visibility = DatePicker.GONE
     }
 
     override fun onStart() {
@@ -34,7 +40,6 @@ class AddSubscriptionActivity : HMBaseActivity() {
             this.setTextFromViewById(R.id.save, "Update")
             this.getSubscriptions()
         }
-
     }
 
     fun updateUi(){
@@ -44,7 +49,10 @@ class AddSubscriptionActivity : HMBaseActivity() {
     //Firebase
     fun addSubscription(){
         val title = this.getTextFromViewById(R.id.subscriptionTitle)
-        subscriptionData = Subscription(this.getUniqueId(), title)
+        val type = this.getTextFromViewById(R.id.subscriptionType)
+        val amount = this.getTextFromViewById(R.id.subscriptionAmount)
+        val startDate = this.getTextFromViewById(R.id.subscriptionStartDate)
+        subscriptionData = Subscription(this.getUniqueId(), title, type, amount, startDate )
         val subscriptions = buildMap(1){
             put(subscriptionData.id, subscriptionData)
         }
@@ -61,7 +69,10 @@ class AddSubscriptionActivity : HMBaseActivity() {
 
     fun updateSubscription(){
         val title = this.getTextFromViewById(R.id.title)
-        subscriptionData = Subscription(subscriptionData.id, title)
+        val type = this.getTextFromViewById(R.id.subscriptionType)
+        val amount = this.getTextFromViewById(R.id.subscriptionAmount)
+        val startDate = this.getTextFromViewById(R.id.subscriptionStartDate)
+        subscriptionData = Subscription(subscriptionData.id, title, type, amount, startDate)
         firebaseDatabase.child(NODE_USERS).child(firebaseAuth.uid.toString()).child(NODE_SUBSCRIPTIONS).child(subscriptionData.id).setValue(subscriptionData)
             .addOnSuccessListener {
                 Log.i(TAG, "Subscription Added or Updated successfully")
@@ -81,7 +92,10 @@ class AddSubscriptionActivity : HMBaseActivity() {
                     var subscriptionMap = it.getValue() as Map<String, Any>
                     subscriptionData = Subscription(
                         subscriptionMap.get(SUBSCRIPTION_ID).toString(),
-                        subscriptionMap.get(SUBSCRIPTION_TITLE).toString())
+                        subscriptionMap.get(SUBSCRIPTION_TITLE).toString(),
+                        subscriptionMap.get(SUBSCRIPTION_TYPE).toString(),
+                        subscriptionMap.get(SUBSCRIPTION_AMOUNT).toString(),
+                        subscriptionMap.get(SUBSCRIPTION_START_DATE).toString())
                     if(subscriptionData != null){
                         this.setTextFromViewById(R.id.subscriptionTitle, subscriptionData.title)
                     }
@@ -112,6 +126,11 @@ class AddSubscriptionActivity : HMBaseActivity() {
             this.updateSubscription()
         }
     }
+
+//    fun showDatePickerAction(view: View){
+//        (findViewById(R.id.datePicker) as DatePicker).visibility = DatePicker.VISIBLE
+//        (findViewById(R.id.scrollView2) as ScrollView).visibility = ScrollView.GONE
+//    }
 
     fun btnDeleteAction(view: View){
 

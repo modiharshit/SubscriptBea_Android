@@ -7,9 +7,21 @@
     android:background="@color/theme"
     tools:context=".activity.AddSubscriptionActivity">
 
+    <DatePicker
+        android:id="@+id/datePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:datePickerMode="calendar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/scrollView2" />
+
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -66,6 +78,7 @@
                 android:hint="@string/prompt_start_date"
                 android:inputType="textEmailAddress"
                 android:minHeight="48dp"
+                android:onClick="showDatePickerAction"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:selectAllOnFocus="true"

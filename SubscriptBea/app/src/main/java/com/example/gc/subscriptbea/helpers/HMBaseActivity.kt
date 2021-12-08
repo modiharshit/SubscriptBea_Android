@@ -18,7 +18,9 @@ open class HMBaseActivity : AppCompatActivity() {
     val NODE_SUBSCRIPTIONS = "subscriptions"
     protected val SUBSCRIPTION_ID = "id"
     protected val SUBSCRIPTION_TITLE = "title"
-
+    protected val SUBSCRIPTION_TYPE = "type"
+    protected val SUBSCRIPTION_AMOUNT = "amount"
+    protected val SUBSCRIPTION_START_DATE = "startDate"
 
     protected val TAG: String = this.javaClass.simpleName
     protected lateinit var firebaseAuth: FirebaseAuth
