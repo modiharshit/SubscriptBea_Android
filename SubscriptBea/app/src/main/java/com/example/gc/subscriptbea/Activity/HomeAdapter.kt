@@ -11,7 +11,11 @@ import com.example.gc.subscriptbea.R
 import com.example.gc.subscriptbea.model.Subscription
 
 import android.content.Intent
+import android.util.Log
 import com.example.gc.subscriptbea.util.Constants
+import java.text.ParsePosition
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class HomeAdapter(private val mList: List<Subscription>) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
@@ -35,7 +39,9 @@ class HomeAdapter(private val mList: List<Subscription>) : RecyclerView.Adapter<
         holder.imageView.setImageResource(R.drawable.splash)
 
         // sets the text to the textview from our itemHolder class
-        holder.textView.text = subscription.title
+        holder.title.text = subscription.title
+        holder.amount.text = subscription.amount
+        holder.dueDate.text = subscription.startDate
 
         holder.itemView.setOnClickListener { view ->
             onItemClick(view, subscription)
@@ -59,7 +65,8 @@ class HomeAdapter(private val mList: List<Subscription>) : RecyclerView.Adapter<
     // Holds the views for adding it to image and text
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
         val imageView: ImageView = itemView.findViewById(R.id.imageview)
-        val textView: TextView = itemView.findViewById(R.id.textView)
+        val title: TextView = itemView.findViewById(R.id.title)
+        val amount: TextView = itemView.findViewById(R.id.amount)
+        val dueDate: TextView = itemView.findViewById(R.id.dueDate)
     }
-
 }

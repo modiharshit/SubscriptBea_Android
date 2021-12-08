@@ -25,7 +25,7 @@ class AddSubscriptionActivity : HMBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_subscription)
-        //(findViewById(R.id.delete) as DatePicker).visibility = DatePicker.GONE
+        (findViewById(R.id.datePicker) as DatePicker).visibility = DatePicker.GONE
     }
 
     override fun onStart() {
@@ -98,6 +98,9 @@ class AddSubscriptionActivity : HMBaseActivity() {
                         subscriptionMap.get(SUBSCRIPTION_START_DATE).toString())
                     if(subscriptionData != null){
                         this.setTextFromViewById(R.id.subscriptionTitle, subscriptionData.title)
+                        this.setTextFromViewById(R.id.subscriptionType, subscriptionData.type)
+                        this.setTextFromViewById(R.id.subscriptionAmount, subscriptionData.amount)
+                        this.setTextFromViewById(R.id.subscriptionStartDate, subscriptionData.startDate)
                     }
                 }
             }
@@ -127,10 +130,10 @@ class AddSubscriptionActivity : HMBaseActivity() {
         }
     }
 
-//    fun showDatePickerAction(view: View){
-//        (findViewById(R.id.datePicker) as DatePicker).visibility = DatePicker.VISIBLE
-//        (findViewById(R.id.scrollView2) as ScrollView).visibility = ScrollView.GONE
-//    }
+    fun showDatePickerAction(view: View){
+        (findViewById(R.id.datePicker) as DatePicker).visibility = DatePicker.VISIBLE
+        (findViewById(R.id.scrollView2) as ScrollView).visibility = ScrollView.GONE
+    }
 
     fun btnDeleteAction(view: View){
 
