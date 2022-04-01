@@ -6,20 +6,26 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import com.example.gc.subscriptbea.R
+import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.gc.subscriptbea.R
 import com.example.gc.subscriptbea.helpers.HMBaseActivity
 import com.example.gc.subscriptbea.model.Subscription
 import kotlinx.android.synthetic.main.activity_home.*
 
+
 class HomeActivity : HMBaseActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
         // Set Toolbar
         setSupportActionBar(toolbar)
+
+        //ANIMATION CODE FOR RECYCLER VIEW
+
 
         // getting the recyclerview by its id
         val recyclerview = findViewById<RecyclerView>(R.id.recyclerview)
@@ -76,11 +82,24 @@ class HomeActivity : HMBaseActivity() {
                 // Setting the Adapter with the recyclerview
                 recyclerview.adapter = adapter
 
+                startIntroAnimation();
+
             }.addOnFailureListener{
                 Log.e(TAG, "Error getting Subscriptions", it)
             }
     }
 
+
+    private fun startIntroAnimation() {
+        //recyclerview.translationY = latestPostRecyclerview.getHeight()
+        recyclerview.alpha = 0f
+        recyclerview.animate()
+            .translationY(0f)
+            .setDuration(2500)
+            .alpha(1f)
+            .setInterpolator(AccelerateDecelerateInterpolator())
+            .start()
+    }
 
     fun btnAddSubscriptionAction(view: View) {
         this.goToNextActivity(AddSubscriptionActivity::class.java)
