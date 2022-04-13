@@ -1,21 +1,29 @@
 package com.example.gc.subscriptbea.activity
 
+import android.Manifest
 import android.app.AlertDialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.NotificationCompat
+import androidx.core.content.FileProvider
+import androidx.lifecycle.lifecycleScope
+import com.example.gc.subscriptbea.BuildConfig
 import com.example.gc.subscriptbea.R
 import com.example.gc.subscriptbea.helpers.HMBaseActivity
 import com.example.gc.subscriptbea.model.User
 import com.example.gc.subscriptbea.util.Extensions.toast
 import com.squareup.picasso.Picasso
+import com.swein.easypermissionmanager.EasyPermissionManager
+import java.io.File
 
 
 class ProfileActivity : HMBaseActivity() {
@@ -26,6 +34,13 @@ class ProfileActivity : HMBaseActivity() {
     private val ID = "id"
     private val EMAIL = "email"
     private val PROFILE_PICTURE = "profilePicture"
+
+    private val permissionManager = EasyPermissionManager(this)
+    private var latestUri: Uri? = null
+
+    private val imgProfilePicture by lazy { findViewById<ImageView>(R.id.imgProfilePicture) }
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,17 +118,41 @@ class ProfileActivity : HMBaseActivity() {
     private fun updateProfile() {
     user.firstName = this.getTextFromViewById(R.id.firstName)
     user.lastName = this.getTextFromViewById(R.id.lastName)
-    val userValues = buildMap(2){
-        put(FIRST_NAME, user.firstName)
-        put(LAST_NAME, user.lastName)
-    }
-    firebaseDatabase.child(NODE_USERS).child(user.id).updateChildren(userValues)
-        .addOnSuccessListener {
-            Log.i(TAG, "User Updated")
-            toast("User profile updated")
+    if(latestUri != null){
+        var storageRef = firebaseStorageRef.getReference((user.id)+getUniqueId()+".jpg");
+        storageRef.putFile(latestUri!!).addOnSuccessListener {
+            storageRef.downloadUrl.addOnSuccessListener {
+                val userValues = buildMap(2){
+                    put(FIRST_NAME, user.firstName)
+                    put(LAST_NAME, user.lastName)
+                    put(PROFILE_PICTURE, it.toString())
+                }
+                firebaseDatabase.child(NODE_USERS).child(user.id).updateChildren(userValues)
+                    .addOnSuccessListener {
+                        Log.i(TAG, "User Updated")
+                        toast("User profile updated")
+                    }
+                    .addOnFailureListener{
+                        Log.e(TAG, "Error updating User data", it)
+                    }
+            }
+                .addOnFailureListener{
+                Log.e(TAG, "Error updating User data", it)
+            }
         }
-        .addOnFailureListener{
-            Log.e(TAG, "Error updating User data", it)
+    }else{
+        val userValues = buildMap(2){
+            put(FIRST_NAME, user.firstName)
+            put(LAST_NAME, user.lastName)
+        }
+        firebaseDatabase.child(NODE_USERS).child(user.id).updateChildren(userValues)
+            .addOnSuccessListener {
+                Log.i(TAG, "User Updated")
+                toast("User profile updated")
+            }
+            .addOnFailureListener{
+                Log.e(TAG, "Error updating User data", it)
+            }
         }
     }
 
@@ -150,4 +189,38 @@ class ProfileActivity : HMBaseActivity() {
         val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         manager.notify(0, builder.build())
     }
+
+    private val takeImageActivityResult = registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
+        if (isSuccess) {
+            latestUri?.let { uri ->
+                imgProfilePicture.setImageURI(uri)
+            }
+        }
+    }
+
+    private fun getTempImgFileUri(): Uri? {
+        val imgFile = File.createTempFile("tmp_file", ".jpg", cacheDir).apply {
+            createNewFile()
+            deleteOnExit()
+        }
+        return FileProvider.getUriForFile(applicationContext, "${BuildConfig.APPLICATION_ID}.provider", imgFile)
+
+    }
+
+    fun btnTakeImage(View: View) {
+        permissionManager.requestPermission("Permission for Camera", "Camera Permission needed", "Settings",
+            arrayOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE)){
+            lifecycleScope.launchWhenStarted {
+                getTempImgFileUri().let { uri ->
+                    latestUri = uri
+                    takeImageActivityResult.launch(latestUri)
+
+                }
+            }
+        }
+    }
+
 }

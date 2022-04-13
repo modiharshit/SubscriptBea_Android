@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 
 open class HMBaseActivity : AppCompatActivity() {
 
@@ -25,6 +26,7 @@ open class HMBaseActivity : AppCompatActivity() {
     protected val TAG: String = this.javaClass.simpleName
     protected lateinit var firebaseAuth: FirebaseAuth
     protected lateinit var firebaseDatabase: DatabaseReference
+    protected lateinit var firebaseStorageRef: FirebaseStorage
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +34,7 @@ open class HMBaseActivity : AppCompatActivity() {
         // Initialize Firebase Auth
         firebaseAuth = FirebaseAuth.getInstance()
         firebaseDatabase = Firebase.database.reference
+        firebaseStorageRef = FirebaseStorage.getInstance()
     }
 
     fun getTextFromViewById(id: Int): String {
