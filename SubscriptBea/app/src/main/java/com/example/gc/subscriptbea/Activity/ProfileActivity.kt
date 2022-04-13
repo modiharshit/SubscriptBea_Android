@@ -1,15 +1,22 @@
 package com.example.gc.subscriptbea.activity
 
 import android.app.AlertDialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.example.gc.subscriptbea.R
 import com.example.gc.subscriptbea.helpers.HMBaseActivity
 import com.example.gc.subscriptbea.model.User
 import com.example.gc.subscriptbea.util.Extensions.toast
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_profile.*
 
 class ProfileActivity : HMBaseActivity() {
 
@@ -20,10 +27,19 @@ class ProfileActivity : HMBaseActivity() {
     private val EMAIL = "email"
     private val PROFILE_PICTURE = "profilePicture"
 
+    private val NOTIFICATION_CHANNEL = "NOTIFICATION_CHANNEL"
+    private var NOTIFICATION_ID = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
         this.getProfile()
+
+        //REGISTER FOR NOTIFICATION
+
+        //REGISTER FOR NOTIFICATION
+        registerFroNotifications()
+
     }
 
     fun btnUpdateAction(view: View) {
@@ -36,7 +52,7 @@ class ProfileActivity : HMBaseActivity() {
         builder.setTitle(R.string.logout)
         //set message for alert dialog
         builder.setMessage(R.string.Are_you_sure_logout)
-        builder.setIcon(android.R.drawable.ic_dialog_alert)
+        builder.setIcon(R.drawable.splash)
 
         //performing positive action
         builder.setPositiveButton("Yes"){dialogInterface, which ->
@@ -102,5 +118,24 @@ class ProfileActivity : HMBaseActivity() {
         .addOnFailureListener{
             Log.e(TAG, "Error updating User data", it)
         }
+    }
+
+    private fun registerFroNotifications() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name: CharSequence = getString(R.string.channel_name)
+            val description = getString(R.string.channel_description)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel =
+                NotificationChannel(getString(R.string.notification_channel), name, importance)
+            channel.description = description
+            val notificationManager = getSystemService(
+                NotificationManager::class.java
+            )
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    fun btnSendNotificationAction(View: View?) {
+
     }
 }

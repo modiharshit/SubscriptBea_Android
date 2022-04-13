@@ -68,6 +68,14 @@ open class HMBaseActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun signOutAndGoToLogin() {
+        toast("Please Login to add subscriptions")
+        FirebaseAuth.getInstance().signOut();
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+    }
+
     fun getUniqueId(): String {
         return System.currentTimeMillis().toString()
     }

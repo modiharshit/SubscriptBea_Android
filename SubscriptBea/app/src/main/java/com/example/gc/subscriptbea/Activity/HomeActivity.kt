@@ -24,8 +24,6 @@ class HomeActivity : HMBaseActivity() {
         // Set Toolbar
         setSupportActionBar(toolbar)
 
-        //ANIMATION CODE FOR RECYCLER VIEW
-
 
         // getting the recyclerview by its id
         val recyclerview = findViewById<RecyclerView>(R.id.recyclerview)
@@ -89,9 +87,8 @@ class HomeActivity : HMBaseActivity() {
             }
     }
 
-
+    //ANIMATION CODE FOR RECYCLER VIEW
     private fun startIntroAnimation() {
-        //recyclerview.translationY = latestPostRecyclerview.getHeight()
         recyclerview.alpha = 0f
         recyclerview.animate()
             .translationY(0f)

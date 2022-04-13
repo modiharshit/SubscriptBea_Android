@@ -102,6 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
+                android:layout_marginBottom="40dp"
                 android:orientation="vertical">
 
                 <com.google.android.material.button.MaterialButton
@@ -147,6 +148,24 @@
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/password2" />
+
+                <Switch
+                    android:id="@+id/notificationSwitch"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:onClick="btnSendNotificationAction"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="20dp"
+                    android:text="Enable your Notifications?"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textColor="#F9E240"
+                    android:textSize="20sp"
+                    android:visibility="visible" />
+
             </LinearLayout>
 
         </LinearLayout>

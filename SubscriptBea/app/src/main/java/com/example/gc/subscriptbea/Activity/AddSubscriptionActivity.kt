@@ -1,18 +1,24 @@
 package com.example.gc.subscriptbea.activity
 
 import android.app.AlertDialog
-import android.opengl.Visibility
+import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.DatePicker
+import android.widget.EditText
 import android.widget.ScrollView
 import com.example.gc.subscriptbea.R
 import com.example.gc.subscriptbea.helpers.HMBaseActivity
 import com.example.gc.subscriptbea.model.Subscription
 import com.example.gc.subscriptbea.util.Constants
 import com.example.gc.subscriptbea.util.Extensions.toast
+import kotlinx.android.synthetic.main.activity_add_subscription.view.*
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 class AddSubscriptionActivity : HMBaseActivity() {
 
@@ -25,7 +31,13 @@ class AddSubscriptionActivity : HMBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_subscription)
-        (findViewById(R.id.datePicker) as DatePicker).visibility = DatePicker.GONE
+
+        //USER IS NOT LOGGED IN
+        if (firebaseAuth.currentUser == null)  {
+            signOutAndGoToLogin()
+        }
+
+
     }
 
     override fun onStart() {
@@ -122,17 +134,46 @@ class AddSubscriptionActivity : HMBaseActivity() {
     }
 
     fun btnAddSubscriptionDataAction(view: View){
-        this.addSubscription()
+
         if(isNew){
             this.addSubscription()
-        }else{
+        } else {
             this.updateSubscription()
         }
     }
 
+
     fun showDatePickerAction(view: View){
-        (findViewById(R.id.datePicker) as DatePicker).visibility = DatePicker.VISIBLE
-        (findViewById(R.id.scrollView2) as ScrollView).visibility = ScrollView.GONE
+
+        view.subscriptionStartDate.transformIntoDatePicker(this, "MM/dd/yyyy")
+        view.subscriptionStartDate.transformIntoDatePicker(this, "MM/dd/yyyy", Date())
+    }
+
+    fun EditText.transformIntoDatePicker(context: Context, format: String, maxDate: Date? = null) {
+        isFocusableInTouchMode = false
+        isClickable = true
+        isFocusable = false
+
+        val myCalendar = Calendar.getInstance()
+        val datePickerOnDataSetListener =
+            DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                myCalendar.set(Calendar.YEAR, year)
+                myCalendar.set(Calendar.MONTH, monthOfYear)
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                val sdf = SimpleDateFormat(format, Locale.UK)
+                setText(sdf.format(myCalendar.time))
+            }
+
+        setOnClickListener {
+            DatePickerDialog(
+                context, datePickerOnDataSetListener, myCalendar
+                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)
+            ).run {
+                maxDate?.time?.also { datePicker.maxDate = it }
+                show()
+            }
+        }
     }
 
     fun btnDeleteAction(view: View){
