@@ -27,9 +27,10 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.483">
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,31 +59,30 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/subscriptionType"
-                android:layout_width="371dp"
+            <Spinner
+                android:id="@+id/spinner_subscriptionType"
+                android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="0dp"
                 android:background="@color/white"
-                android:hint="@string/prompt_subscription_type"
-                android:inputType="textEmailAddress"
-                android:minHeight="48dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:selectAllOnFocus="true"
-                android:singleLine="true"
-                app:layout_constraintBottom_toTopOf="@+id/email"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/username2" />
+                android:backgroundTint="@color/white"
+                android:dropDownWidth="100dp"
+                android:foregroundTint="#FFEB3B"
+                android:spinnerMode="dialog"
+                app:layout_constraintBottom_toBottomOf="@id/subscriptionStartDate"
+                app:layout_constraintEnd_toEndOf="@id/subscriptionStartDate"
+                app:layout_constraintStart_toStartOf="@id/subscriptionTitle" />
 
             <EditText
                 android:id="@+id/subscriptionStartDate"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="@color/white"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:hint="@string/prompt_start_date"
                 android:inputType="textEmailAddress"
                 android:minHeight="48dp"
@@ -91,9 +91,7 @@
                 android:paddingRight="16dp"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:focusable="false"
-                android:cursorVisible="false"
-                android:focusableInTouchMode="false"
+                android:textColorHint="#757575"
                 app:layout_constraintBottom_toTopOf="@+id/email"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -107,13 +105,13 @@
                 android:layout_marginTop="20dp"
                 android:background="@color/white"
                 android:hint="@string/prompt_amount"
-                android:inputType="textEmailAddress"
+                android:inputType="number"
                 android:minHeight="48dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                app:layout_constraintBottom_toTopOf="@+id/password"
+                app:layout_constraintBottom_toTopOf="@+id/spinner_subscriptionType"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -123,7 +121,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="20dp">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/save"
@@ -156,6 +155,7 @@
                     android:layout_marginBottom="20dp"
                     android:layout_weight="1"
                     android:onClick="btnDeleteAction"
+                    android:paddingBottom="20dp"
                     android:singleLine="true"
                     android:text="@string/delete"
                     android:textColor="@color/white"

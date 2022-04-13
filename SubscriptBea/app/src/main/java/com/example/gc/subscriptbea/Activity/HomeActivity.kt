@@ -69,8 +69,8 @@ class HomeActivity : HMBaseActivity() {
                         subscription = Subscription(
                             subscriptionValuesMap.get(SUBSCRIPTION_ID).toString(),
                             subscriptionValuesMap.get(SUBSCRIPTION_TITLE).toString(),
-                            subscriptionValuesMap.get(SUBSCRIPTION_TYPE).toString(),
                             subscriptionValuesMap.get(SUBSCRIPTION_AMOUNT).toString(),
+                            subscriptionValuesMap.get(SUBSCRIPTION_TYPE).toString(),
                             subscriptionValuesMap.get(SUBSCRIPTION_START_DATE).toString())
                         subscriptions.add(subscription)
                     }

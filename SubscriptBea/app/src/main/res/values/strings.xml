@@ -37,4 +37,13 @@
     <string name="add_widget">Add widget</string>
     <string name="app_widget_description">This is an app widget description</string>
 
+    <string-array name="subscriptionTypes">
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>Bi-weekly</item>
+        <item>Monthly</item>
+        <item>Quaterly</item>
+        <item>Half-yearly</item>
+        <item>Annual</item>
+    </string-array>
 </resources>

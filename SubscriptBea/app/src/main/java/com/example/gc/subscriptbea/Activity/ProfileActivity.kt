@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -17,7 +16,6 @@ import com.example.gc.subscriptbea.helpers.HMBaseActivity
 import com.example.gc.subscriptbea.model.User
 import com.example.gc.subscriptbea.util.Extensions.toast
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_profile.*
 
 
 class ProfileActivity : HMBaseActivity() {
@@ -149,7 +147,7 @@ class ProfileActivity : HMBaseActivity() {
         )
         builder.setContentIntent(contentIntent)
 
-//        val manager = getSystemService<Any>(Context.NOTIFICATION_SERVICE) as NotificationManager
-//        manager.notify(0, builder.build())
+        val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        manager.notify(0, builder.build())
     }
 }
