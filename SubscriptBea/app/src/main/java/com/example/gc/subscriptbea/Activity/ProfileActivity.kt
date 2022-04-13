@@ -3,20 +3,22 @@ package com.example.gc.subscriptbea.activity
 import android.app.AlertDialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import com.example.gc.subscriptbea.R
 import com.example.gc.subscriptbea.helpers.HMBaseActivity
 import com.example.gc.subscriptbea.model.User
 import com.example.gc.subscriptbea.util.Extensions.toast
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_profile.*
+
 
 class ProfileActivity : HMBaseActivity() {
 
@@ -26,9 +28,6 @@ class ProfileActivity : HMBaseActivity() {
     private val ID = "id"
     private val EMAIL = "email"
     private val PROFILE_PICTURE = "profilePicture"
-
-    private val NOTIFICATION_CHANNEL = "NOTIFICATION_CHANNEL"
-    private var NOTIFICATION_ID = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -136,6 +135,21 @@ class ProfileActivity : HMBaseActivity() {
     }
 
     fun btnSendNotificationAction(View: View?) {
+        val builder: NotificationCompat.Builder = NotificationCompat.Builder(this)
+            .setSmallIcon(R.mipmap.ic_launcher_round)
+            .setContentTitle("Notifications Turned On")
+            .setContentText("YOu have turned on notifications")
 
+        val notificationIntent = Intent(this, ProfileActivity::class.java)
+        val contentIntent = PendingIntent.getActivity(
+            this,
+            0,
+            notificationIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        builder.setContentIntent(contentIntent)
+
+//        val manager = getSystemService<Any>(Context.NOTIFICATION_SERVICE) as NotificationManager
+//        manager.notify(0, builder.build())
     }
 }

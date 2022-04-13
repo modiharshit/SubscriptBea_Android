@@ -2,7 +2,6 @@ package com.example.gc.subscriptbea.activity
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -15,9 +14,9 @@ import com.example.gc.subscriptbea.helpers.HMBaseActivity
 import com.example.gc.subscriptbea.model.Subscription
 import com.example.gc.subscriptbea.util.Constants
 import com.example.gc.subscriptbea.util.Extensions.toast
-import kotlinx.android.synthetic.main.activity_add_subscription.view.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.time.Duration.Companion.days
 
 
 class AddSubscriptionActivity : HMBaseActivity() {
@@ -25,6 +24,8 @@ class AddSubscriptionActivity : HMBaseActivity() {
     lateinit var subscriptionData: Subscription
     var subscripionId = ""
     var isNew = true
+    var datePickerDialog: DatePickerDialog? = null
+    var monthName = ""
 
     //val datePicker = findViewById<DatePicker>(R.id.datePicker)
 
@@ -36,8 +37,6 @@ class AddSubscriptionActivity : HMBaseActivity() {
         if (firebaseAuth.currentUser == null)  {
             signOutAndGoToLogin()
         }
-
-
     }
 
     override fun onStart() {
@@ -142,39 +141,60 @@ class AddSubscriptionActivity : HMBaseActivity() {
         }
     }
 
+    private fun updateLabel(myCalendar: Calendar, dateEditText: EditText) {
+        val myFormat: String = "dd-MMM-yyyy"
+        val sdf = SimpleDateFormat(myFormat, Locale.UK)
+        dateEditText.setText(sdf.format(myCalendar.time))
+    }
 
     fun showDatePickerAction(view: View){
+            val c: Calendar = Calendar.getInstance()
+            val mYear: Int = c.get(Calendar.YEAR) // current year
 
-        view.subscriptionStartDate.transformIntoDatePicker(this, "MM/dd/yyyy")
-        view.subscriptionStartDate.transformIntoDatePicker(this, "MM/dd/yyyy", Date())
-    }
+            val mMonth: Int = c.get(Calendar.MONTH) // current month
 
-    fun EditText.transformIntoDatePicker(context: Context, format: String, maxDate: Date? = null) {
-        isFocusableInTouchMode = false
-        isClickable = true
-        isFocusable = false
+            val mDay: Int = c.get(Calendar.DAY_OF_MONTH) // current day
 
-        val myCalendar = Calendar.getInstance()
-        val datePickerOnDataSetListener =
-            DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-                myCalendar.set(Calendar.YEAR, year)
-                myCalendar.set(Calendar.MONTH, monthOfYear)
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                val sdf = SimpleDateFormat(format, Locale.UK)
-                setText(sdf.format(myCalendar.time))
-            }
+            // date picker dialog
+            datePickerDialog = DatePickerDialog(this,
+                { view, year, monthOfYear, dayOfMonth ->
 
-        setOnClickListener {
-            DatePickerDialog(
-                context, datePickerOnDataSetListener, myCalendar
-                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)
-            ).run {
-                maxDate?.time?.also { datePicker.maxDate = it }
-                show()
-            }
+                    if (monthOfYear == 0 ) {
+                        monthName = "Jan"
+                    } else if (monthOfYear == 1 ) {
+                        monthName = "Feb"
+                    } else if (monthOfYear == 2 ) {
+                        monthName = "Mar"
+                    } else if (monthOfYear == 3 ) {
+                        monthName = "Apr"
+                    } else if (monthOfYear == 4 ) {
+                        monthName = "May"
+                    } else if (monthOfYear == 5 ) {
+                        monthName = "Jun"
+                    } else if (monthOfYear == 6 ) {
+                        monthName = "Jul"
+                    } else if (monthOfYear == 7 ) {
+                        monthName = "Aug"
+                    } else if (monthOfYear == 8 ) {
+                        monthName = "Sep"
+                    } else if (monthOfYear == 9 ) {
+                        monthName = "Oct"
+                    } else if (monthOfYear == 10 ) {
+                        monthName = "Nov"
+                    } else {
+                        monthName = "Dec"
+                    }
+
+                    findViewById<EditText>(R.id.subscriptionStartDate).setText(
+
+
+                        this.monthName + " " + dayOfMonth.toString() + ", " + year
+                    )
+                }, mYear, mMonth, mDay
+            )
+            datePickerDialog!!.show()
+
         }
-    }
 
     fun btnDeleteAction(view: View){
 
